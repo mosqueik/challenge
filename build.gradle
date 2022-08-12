@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id("maven-publish")
+    id 'io.qameta.allure' version '2.10.0'
+}
+
+group 'org.noteworth'
+version '1.0.23'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Json
+    implementation group: 'com.googlecode.json-simple', name:'json-simple', version: '1.1.1'
+    implementation group: 'org.json', name: 'json', version: '20190722'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.13.3'
+
+
+    // Api annotations
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.0'
+
+    // Rest assured
+    implementation group: 'io.rest-assured', name: 'rest-assured' , version: '5.1.1'
+
+    // Cucumber for tests
+    implementation group: 'io.cucumber', name: 'cucumber-core', version: '7.5.0'
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: '7.5.0'
+    implementation group: 'io.cucumber', name: 'cucumber-junit', version: '7.5.0'
+
+    // Allure
+    testCompile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.6'
+    testCompile group: 'org.aspectj', name: 'aspectjrt', version: '1.9.6'
+    testCompile 'io.qameta.allure:allure-cucumber7-jvm:2.18.1'
+
+    // slf4j logs
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+
+    implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task regression(type: JavaExec) {
+    classpath sourceSets.test.runtimeClasspath
+    main = "SuiteRunner"
+    args "qa"
+}
+
+allure{
+    version = '2.18.1'
+    autoconfigure = true
+}
